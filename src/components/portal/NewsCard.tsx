@@ -42,9 +42,9 @@ export function NewsCard({
 
   if (isHorizontal) {
     return (
-      <article className={cn('news-card flex gap-3 cursor-pointer', className)}>
+      <article className={cn('news-card flex gap-4 cursor-pointer p-3', className)}>
         {showImage && (
-          <div className="w-24 h-16 flex-shrink-0 overflow-hidden rounded">
+          <div className="w-28 h-20 flex-shrink-0 overflow-hidden rounded">
             <img 
               src={news.imagem} 
               alt={news.titulo}
@@ -52,15 +52,15 @@ export function NewsCard({
             />
           </div>
         )}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 mb-1">
+        <div className="flex-1 min-w-0 py-1">
+          <div className="flex items-center gap-1.5 mb-2">
             <div className={cn('w-1.5 h-1.5 rounded-sm', categoryColors[news.editoria])} />
           </div>
           <h3 className="news-card-title text-sm line-clamp-2">
             {news.titulo}
           </h3>
           {showSubtitle && news.subtitulo && (
-            <p className="news-card-subtitle text-xs mt-1 line-clamp-2">
+            <p className="news-card-subtitle text-xs mt-2 line-clamp-2">
               {news.subtitulo}
             </p>
           )}
@@ -70,10 +70,10 @@ export function NewsCard({
   }
 
   return (
-    <article className={cn('news-card cursor-pointer', className)}>
+    <article className={cn('news-card cursor-pointer p-3', className)}>
       {showImage && (
         <div className={cn(
-          'overflow-hidden',
+          'overflow-hidden rounded',
           isLarge ? 'aspect-[16/10]' : 'aspect-video'
         )}>
           <img 
@@ -83,8 +83,8 @@ export function NewsCard({
           />
         </div>
       )}
-      <div className={cn('pt-2', isLarge && 'pt-3')}>
-        <div className="flex items-center gap-1.5 mb-1.5">
+      <div className={cn('pt-3', isLarge && 'pt-4')}>
+        <div className="flex items-center gap-1.5 mb-2">
           <div className={cn('w-1.5 h-1.5 rounded-sm', categoryColors[news.editoria])} />
         </div>
         <h3 className={cn(
@@ -97,7 +97,7 @@ export function NewsCard({
         </h3>
         {showSubtitle && news.subtitulo && (
           <p className={cn(
-            'news-card-subtitle mt-1.5',
+            'news-card-subtitle mt-2',
             isSmall && 'text-xs line-clamp-2',
             !isSmall && 'line-clamp-2'
           )}>
