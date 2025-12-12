@@ -1,46 +1,25 @@
-import { useState, useEffect } from 'react';
 import { TopHeader } from "./TopHeader";
 import { EditorialBar } from "./EditorialBar";
 import { CategoryNav } from "./CategoryNav";
+import { useScrollHeader } from "@/hooks/useScrollHeader";
 
 export function StickyHeader() {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 48);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { showTop } = useScrollHeader();
 
   return (
-    <>
-      {/* TopHeader - não sticky, some ao rolar */}
+    <div className="sticky top-0 z-50">
+      {/* Some ao rolar */}
       <div
-        className={`
-          transition-all duration-300 ease-in-out
-          ${isScrolled ? 'h-0 overflow-hidden opacity-0' : 'h-auto opacity-100'}
-        `}
+        className={`transition-all duration-300 ${
+          showTop ? "opacity-100 h-auto" : "opacity-0 h-0 overflow-hidden"
+        }`}
       >
         <TopHeader />
       </div>
 
-      {/* EditorialBar + CategoryNav - sticky */}
-      <div
-        className="
-          sticky 
-          top-0 
-          z-50 
-          shadow-md 
-          bg-background/95 
-          backdrop-blur-md
-        "
-      >
-        <EditorialBar />
-        <CategoryNav />
-      </div>
-    </>
+      {/* Ficam fixos */}
+      <EditorialBar />
+      <CategoryNav />
+    </div>
   );
 }

@@ -19,8 +19,8 @@ export function TopHeader() {
         <div className="flex items-center gap-2">
           
           <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
-            {/* <MapPin size={14} />
-            <span className="hidden sm:inline">Rio de Janeiro</span> */}
+            <MapPin size={14} />
+            <span className="hidden sm:inline">Rio de Janeiro</span>
           </button>
         </div>
       </div>
