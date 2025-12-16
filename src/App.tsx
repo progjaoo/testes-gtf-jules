@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ArtigoPage from "./pages/ArtigoPage";
@@ -21,6 +21,8 @@ const App = () => (
           <EditorialProvider>
             <BrowserRouter>
               <Routes>
+                <Route path="/" element={<Navigate to="/radio88fm" replace />} />
+
                 <Route
                 path="/radio88fm"
                 element={
@@ -56,5 +58,3 @@ const App = () => (
 );
 
 export default App;
-
-// ajustei tudo, porém nao funcionou, veja o App.tsx, veja o que faltou:
