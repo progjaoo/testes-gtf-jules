@@ -620,7 +620,7 @@ GET    /api/admin/me
 ```
 
 ### Notícias
-
+```
 GET    /api/admin/noticias                    # Lista com filtros
 GET    /api/admin/noticias/:id                # Detalhes
 POST   /api/admin/noticias                    # Criar
@@ -629,7 +629,7 @@ DELETE /api/admin/noticias/:id                # Deletar
 PATCH  /api/admin/noticias/:id/status         # Alterar status
 PATCH  /api/admin/noticias/:id/destaque       # Toggle destaque
 POST   /api/admin/noticias/:id/revisar        # Enviar revisão
-
+```
 
 ### Usuários
 ```
