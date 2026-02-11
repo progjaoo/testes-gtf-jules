@@ -1,14 +1,14 @@
 import React from 'react';
 import { useEditorial } from '@/contexts/EditorialContext';
-import { cn } from '@/lib/utils';
+import { EditorialDTO } from '@/services/editorial/editorial.service';
 
 export function CategoryNav() {
-  const { editorials, currentEditorial, setEditorial } = useEditorial();
+  const { editorials, setEditorial } = useEditorial();
 
   return (
     <nav className="bg-card border-b border-border">
       <div className="container flex gap-4 py-3 overflow-x-auto">
-        {editorials.map((editorial: any) => (
+        {editorials.map((editorial: EditorialDTO) => (
           <button
             key={editorial.id}
             onClick={() => setEditorial(editorial.id)}
