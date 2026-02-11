@@ -15,9 +15,9 @@ const stationLogos: Record<string, string> = {
 
 export function EditorialBar() {
   const { currentStation } = useStation();
-  const logoSrc = stationLogos[currentStation.id];
+  const logoSrc = currentStation.logo || stationLogos[currentStation.slug || currentStation.id];
 
-  const stationHomePath = `/${currentStation.id}`;
+  const stationHomePath = `/${currentStation.slug || currentStation.id}`;
 
   return (
     <div className="editorial-bar shadow-sm"

@@ -1,8 +1,18 @@
 // contexts/EditorialContext.tsx
 import React, { createContext, useContext, useState } from "react";
 import { useEditorialApi } from "@/hooks/useEditorial";
+import { EditorialDTO } from "@/services/editorial/editorial.service";
 
-const EditorialContext = createContext<any>(null);
+export type EditorialType = 'noticias' | 'nacional' | 'esportes' | 'negocios' | 'inovacao' | 'cultura' | 'servicos';
+
+interface EditorialContextType {
+  editorials: EditorialDTO[];
+  currentEditorial: number | null;
+  setEditorial: (id: number | null) => void;
+  current: EditorialDTO | undefined;
+}
+
+const EditorialContext = createContext<EditorialContextType | null>(null);
 
 export function EditorialProvider({ children }: { children: React.ReactNode }) {
   const editorials = useEditorialApi();

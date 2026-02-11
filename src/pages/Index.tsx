@@ -8,11 +8,23 @@ import { mockNews, mockNegociosNews } from '@/data/mockNews';
 import { StickyHeader } from '@/components/portal/StickyHeader';
 import { NewsCard } from '@/components/portal/NewsCard';
 import { VerMaisButton } from '@/components/portal/VerMaisButton';
+import { useQuery } from '@tanstack/react-query';
+import { StrapiService } from '@/services/strapi.service';
+import { mapStrapiArticleToNewsItem } from '@/utils/mappers';
 
 function PortalContent() {
-  const mainNews = mockNews[0];
-  const sideNews = mockNews.slice(1, 10);
-  const gridNews = mockNews.slice(2, 8);
+  const { data: strapiArticles = [] } = useQuery({
+    queryKey: ['articles'],
+    queryFn: StrapiService.getArticles,
+  });
+
+  const news = strapiArticles.length > 0
+    ? strapiArticles.map(mapStrapiArticleToNewsItem)
+    : mockNews;
+
+  const mainNews = news[0];
+  const sideNews = news.slice(1, 10);
+  const gridNews = news.slice(2, 8);
 
   return (
     <div className="min-h-screen bg-background">
@@ -31,14 +43,14 @@ function PortalContent() {
 
       {/* Secondary Grid */}
       <section className="container pb-8">
-        <NewsGrid news={mockNews.slice(8, 0)} columns={3} />
+        <NewsGrid news={news.slice(8, 11)} columns={3} />
       </section>
 
       {/* Negócios Section */}
       <EditorialSection 
         title="Negócios" 
         editorial="negocios" 
-        news={mockNegociosNews.slice(0, 4)} 
+        news={news.filter(n => n.editoria === 'negocios').slice(0, 4)}
       />
       <VerMaisButton size="full"/>
 
