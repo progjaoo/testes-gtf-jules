@@ -19,7 +19,7 @@ export function TopHeader() {
           {/* 🔥 AQUI: cor dinâmica da emissora */}
           <span
             className="text-sm font-semibold hidden sm:inline"
-            style={{ color: currentStation.color }}
+            style={{ color: currentStation?.temaPrincipal }}
           >
             BRASIL
           </span>
@@ -31,7 +31,6 @@ export function TopHeader() {
             <span className="hidden sm:inline">Rio de Janeiro</span>
           </button>
         </div>
-
       </div>
     </header>
   );

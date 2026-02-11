@@ -1,17 +1,18 @@
 import { useEffect } from "react";
-import { useStation, StationType } from "@/contexts/StationContext";
+import { useStation } from "@/contexts/StationContext";
 
 interface StationRouteProps {
-  stationId: StationType;
+  stationId: string; // ← agora é string
   children: React.ReactNode;
 }
 
 export function StationRoute({ stationId, children }: StationRouteProps) {
-  const { setStation } = useStation();
+const { setStationById } = useStation();
 
-  useEffect(() => {
-    setStation(stationId);
-  }, [stationId, setStation]);
+useEffect(() => {
+  setStationById(stationId);
+}, [stationId, setStationById]);
+
 
   return <>{children}</>;
 }

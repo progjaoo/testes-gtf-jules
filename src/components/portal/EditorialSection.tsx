@@ -2,7 +2,7 @@ import React from 'react';
 import { NewsItem } from './NewsCard';
 import { SectionHeader } from './SectionHeader';
 import { NewsGrid } from './NewsGrid';
-import { EditorialType } from '@/contexts/EditorialContext';
+import { EditorialType } from '@/contexts/EditorialContext'; // ATUALIZAR COM O TIPO CORRETO
 
 interface EditorialSectionProps {
   title: string;

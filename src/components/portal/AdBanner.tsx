@@ -12,7 +12,7 @@ export function AdBanner({ text = "ANUNCIE AQUI" }) {
         rounded-md cursor-pointer hover:opacity-90 transition-opacity
       "
       style={{
-        backgroundColor: currentStation.color,
+        backgroundColor: currentStation.temaPrincipal,
         color: "#fff"
       }}
     >

@@ -24,7 +24,7 @@ const App = () => (
                 <Route path="/" element={<Navigate to="/radio88fm" replace />} />
 
                 <Route
-                path="/radio88fm"
+                path="/radio-88-fm"
                 element={
                   <StationRoute stationId="radio88fm">
                     <Index />

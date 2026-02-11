@@ -21,7 +21,7 @@ export function EditorialBar() {
 
   return (
     <div className="editorial-bar shadow-sm"
-         style={{ backgroundColor: currentStation.color }}>
+         style={{ backgroundColor: currentStation.temaPrincipal }}>
       
       <div className="container flex items-center justify-between h-[70px] w-full relative">
 
@@ -32,7 +32,7 @@ export function EditorialBar() {
 
         <div className="absolute left-1/2 -translate-x-1/2">
         <Link to={stationHomePath} className="flex items-center">
-          <img src={logoSrc} alt={currentStation.name} className="h-10 w-auto" />
+          <img src={logoSrc} alt={currentStation.temaPrincipal} className="h-10 w-auto" />
         </Link>
         </div>
 
