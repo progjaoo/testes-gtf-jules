@@ -5,6 +5,7 @@ export interface EmissoraDTO {
   id: number;
   nomeSocial: string;
   temaPrincipal: string;
+  slug: string;
   logo: string;
   ativa: boolean;
 }

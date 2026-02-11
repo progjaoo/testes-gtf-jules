@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useEmissoras } from "@/hooks/useEmissora";
 
 export interface Station {
-  id: string;
+  id: number;
   nomeSocial: string;
   temaPrincipal: string;
   slug: string; 
@@ -13,14 +13,14 @@ export interface Station {
 interface StationContextType {
   stations: Station[];
   currentStation: Station | null;
-  setStationById: (id: string) => void;
+  setStationById: (id: string | number) => void;
 }
 
 const StationContext = createContext<StationContextType | undefined>(undefined);
 
 export function StationProvider({ children }: { children: React.ReactNode }) {
   const stations = useEmissoras();
-  const [currentStation, setCurrentStation] = useState<any>(null);
+  const [currentStation, setCurrentStation] = useState<Station | null>(null);
 
   useEffect(() => {
     if (stations.length && !currentStation) {
@@ -37,7 +37,12 @@ export function StationProvider({ children }: { children: React.ReactNode }) {
       stations,
       currentStation,
       setStationById(id) {
-        const station = stations.find(station => station.id === id);
+        const station = stations.find(station =>
+          station.id.toString() === id.toString() || station.slug === id
+        );
+        if (station) {
+          setCurrentStation(station);
+        }
       },
     }}>
       {children}
