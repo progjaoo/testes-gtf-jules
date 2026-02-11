@@ -16,7 +16,7 @@ export function CategoryNav() {
           >
             <span
               className="w-2 h-2 rounded-sm"
-              style={{ backgroundColor: editorial.tema?.corPrimaria }}
+              style={{ backgroundColor: editorial.tema?.corPrimaria || '#ccc' }}
             />
             <span>{editorial.nome}</span>
           </button>

@@ -24,7 +24,7 @@ const { stations, currentStation } = useStation();
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-1 hover:opacity-80 transition-opacity">
           <span className={cn('text-sm font-bold')}>
-            {currentStation.nomeSocial}
+            {currentStation?.nomeSocial || "Selecionar Emissora"}
           </span>
           <ChevronDown size={14} className="text-muted-foreground" />
         </button>

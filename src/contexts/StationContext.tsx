@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import { useEmissoras } from "@/hooks/useEmissora";
 
 export interface Station {
@@ -45,35 +45,42 @@ const StationContext = createContext<StationContextType | undefined>(undefined);
 export function StationProvider({ children }: { children: React.ReactNode }) {
   const apiStations = useEmissoras();
   const stations = apiStations.length > 0 ? apiStations : fallbackStations;
-  const [currentStation, setCurrentStation] = useState<Station | null>(null);
+
+  // Inicializamos com a primeira estação disponível para evitar tela em branco
+  const [currentStation, setCurrentStation] = useState<Station>(stations[0]);
 
   useEffect(() => {
-    if (stations.length && !currentStation) {
-      setCurrentStation(stations[0]);
+    if (apiStations.length > 0) {
+      // Se as estações carregarem da API, tentamos manter a selecionada ou pegamos a primeira da API
+      const currentId = currentStation?.id;
+      const currentSlug = currentStation?.slug;
+      const found = apiStations.find(s => s.id === currentId || s.slug === currentSlug);
+      if (found) {
+        setCurrentStation(found);
+      } else {
+        setCurrentStation(apiStations[0]);
+      }
     }
-  }, [stations, currentStation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiStations]);
 
-  if (!currentStation) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
+  const setStationById = useCallback((id: string | number) => {
+    const station = stations.find(station =>
+      station.id.toString() === id.toString() || station.slug === id
     );
-  }
+    if (station) {
+      setCurrentStation(station);
+    }
+  }, [stations]);
+
+  const value = useMemo(() => ({
+    stations,
+    currentStation,
+    setStationById
+  }), [stations, currentStation, setStationById]);
 
   return (
-    <StationContext.Provider value={{
-      stations,
-      currentStation,
-      setStationById(id) {
-        const station = stations.find(station =>
-          station.id.toString() === id.toString() || station.slug === id
-        );
-        if (station) {
-          setCurrentStation(station);
-        }
-      },
-    }}>
+    <StationContext.Provider value={value}>
       {children}
     </StationContext.Provider>
   );

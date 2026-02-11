@@ -37,7 +37,7 @@ function PortalContent() {
       <HeroSection mainNews={mainNews} sideNews={sideNews} />
 
       {/* Main News Grid */}
-      <section className="container pb-100" margin-top="50px">
+      <section className="container pb-24 mt-[50px]">
         <NewsGrid news={gridNews} columns={3} />
       </section>
 

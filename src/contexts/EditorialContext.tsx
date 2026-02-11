@@ -1,5 +1,5 @@
 // contexts/EditorialContext.tsx
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback, useMemo } from "react";
 import { useEditorialApi } from "@/hooks/useEditorial";
 import { EditorialDTO } from "@/services/editorial/editorial.service";
 
@@ -27,17 +27,23 @@ const EditorialContext = createContext<EditorialContextType | null>(null);
 export function EditorialProvider({ children }: { children: React.ReactNode }) {
   const apiEditorials = useEditorialApi();
   const editorials = apiEditorials.length > 0 ? apiEditorials : fallbackEditorials;
-  const [currentEditorial, setCurrentEditorial] = useState<number | null>(null);
+  const [currentEditorial, setCurrentEditorial] = useState<number | null>(editorials[0].id);
 
-  const current = editorials.find(e => e.id === currentEditorial);
+  const current = editorials.find(e => e.id === currentEditorial) || editorials[0];
+
+  const setEditorial = useCallback((id: number | null) => {
+    setCurrentEditorial(id);
+  }, []);
+
+  const value = useMemo(() => ({
+    editorials,
+    currentEditorial,
+    setEditorial,
+    current
+  }), [editorials, currentEditorial, setEditorial, current]);
 
   return (
-    <EditorialContext.Provider value={{
-      editorials,
-      currentEditorial,
-      setEditorial: setCurrentEditorial,
-      current
-    }}>
+    <EditorialContext.Provider value={value}>
       {children}
     </EditorialContext.Provider>
   );

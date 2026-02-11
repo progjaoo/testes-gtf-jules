@@ -30,6 +30,16 @@ interface NewsCardProps {
 //   servicos: "bg-editorial-servicos",
 // };
 
+const categoryColors: Record<EditorialType, string> = {
+  noticias: "bg-editorial-noticias",
+  nacional: "bg-editorial-nacional",
+  esportes: "bg-editorial-esportes",
+  negocios: "bg-editorial-negocios",
+  inovacao: "bg-editorial-inovacao",
+  cultura: "bg-editorial-cultura",
+  servicos: "bg-editorial-servicos",
+};
+
 export function NewsCard({
   news,
   variant = "medium",
@@ -68,7 +78,7 @@ export function NewsCard({
             <div
               className={cn(
                 "w-2 h-2 mt-1 rounded-sm",
-                [news.editoria]
+                categoryColors[news.editoria] || "bg-primary"
               )}
             />
             <h3 className="news-card-title text-base line-clamp-3">
@@ -106,7 +116,7 @@ export function NewsCard({
       <div className={cn("pt-3", isLarge && "pt-4")}>
         <div className="flex items-start gap-2 mb-2">
           <div
-            className={cn("w-2 h-2 mt-1 rounded-sm", [news.editoria])}
+            className={cn("w-2 h-2 mt-1 rounded-sm", categoryColors[news.editoria] || "bg-primary")}
           />
           <h3
             className={cn(
