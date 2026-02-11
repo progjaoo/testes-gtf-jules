@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom";
 import { mockNews } from "@/data/mockNews";
 import { StickyHeader } from "@/components/portal/StickyHeader";
+import { useQuery } from "@tanstack/react-query";
+import { StrapiService } from "@/services/strapi.service";
+import { mapStrapiArticleToNewsItem } from "@/utils/mappers";
 import { Footer } from "@/components/portal/Footer";
 import { NewsCard } from "@/components/portal/NewsCard";
 
@@ -16,7 +19,28 @@ const editorialColors: Record<string, string> = {
 
 export default function ArtigoPage() {
   const { id } = useParams();
-  const noticia = mockNews.find((n) => n.id === Number(id));
+
+  const { data: strapiArticle, isLoading } = useQuery({
+    queryKey: ['article', id],
+    queryFn: () => StrapiService.getArticleById(id!),
+    enabled: !!id,
+  });
+
+  const noticia = strapiArticle
+    ? mapStrapiArticleToNewsItem(strapiArticle)
+    : mockNews.find((n) => n.id === Number(id));
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <StickyHeader />
+        <div className="p-20 text-center text-2xl font-semibold">
+          Carregando...
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!noticia) {
     return (
@@ -85,32 +109,23 @@ export default function ArtigoPage() {
 
           {/* TEXTO */}
           <div className="prose prose-lg max-w-none">
-            <p>
-              Este é um texto de demonstração da matéria. Em breve isso será
-              substituído pelo conteúdo real retornado da API com corpo completo
-              da notícia.
-              <br/>
-            </p>
-            <br />
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde dolorem, odit illum odio quas voluptatibus libero id, quia, mollitia ipsam iure sed! Recusandae voluptates,
-              dolore iusto tenetur aspernatur ratione quisquam!
-
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio quibusdam quidem iste officia, non voluptatem eligendi modi!
-              Unde expedita, atque doloremque magnam, dolore quos dolorum tenetur nihil aut exercitationem mollitia.
-            </p>
-            <br />
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi omnis laborum eius quis architecto quod nam tempore consequatur autem inventore. 
-              Consequatur deleniti consequuntur quo beatae amet natus dolore animi soluta.
-            </p>
-            <br/>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nulla minus eos eveniet commodi. Soluta fuga alias aliquam quae deleniti,
-               pariatur numquam illo quasi nisi dignissimos nobis ipsa doloremque eveniet?
-            </p>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque ea nisi officiis est itaque. Atque consectetur nihil officia exercitationem fugiat eligendi
-               incidunt veniam. Odio dicta suscipit exercitationem obcaecati officiis. Aspernatur!</p>
+            {strapiArticle ? (
+              <div dangerouslySetInnerHTML={{ __html: strapiArticle.Content }} />
+            ) : (
+              <>
+                <p>
+                  Este é um texto de demonstração da matéria. Em breve isso será
+                  substituído pelo conteúdo real retornado da API com corpo completo
+                  da notícia.
+                  <br/>
+                </p>
+                <br />
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde dolorem, odit illum odio quas voluptatibus libero id, quia, mollitia ipsam iure sed! Recusandae voluptates,
+                  dolore iusto tenetur aspernatur ratione quisquam!
+                </p>
+              </>
+            )}
           </div>
 
           {/* COMENTÁRIOS */}
